@@ -1,0 +1,30 @@
+package com.watersupply.controller;
+
+
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+
+import com.watersupply.service.Test2;
+
+@Controller
+@RequestMapping("/a")
+public class Test {
+	
+	@Autowired
+	private Test2 ass;
+	
+	
+	@RequestMapping("testaction")
+	public String get(){
+		System.out.println("into....");
+		System.out.println(ass.getAll().size());
+		return null;
+	}
+	
+	
+	
+	
+
+}

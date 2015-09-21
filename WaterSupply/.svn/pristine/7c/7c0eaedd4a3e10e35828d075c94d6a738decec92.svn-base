@@ -1,0 +1,262 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.watersupply.dao.PyBillMapper" >
+  <resultMap id="BaseResultMap" type="com.watersupply.entity.PyBill" >
+    <id column="Bill_No" property="billNo" jdbcType="VARCHAR" />
+    <result column="Read_ID" property="readId" jdbcType="INTEGER" />
+    <result column="User_No" property="userNo" jdbcType="VARCHAR" />
+    <result column="Create_Date" property="createDate" jdbcType="TIMESTAMP" />
+    <result column="Bill_Money" property="billMoney" jdbcType="DOUBLE" />
+    <result column="Real_Money" property="realMoney" jdbcType="DOUBLE" />
+    <result column="Balance" property="balance" jdbcType="BIT" />
+    <result column="Balance_Date" property="balanceDate" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    Bill_No, Read_ID, User_No, Create_Date, Bill_Money, Real_Money, Balance, Balance_Date
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.watersupply.entity.PyBillExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from py_bill
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+    <if test="limitStart != null and limitStart>=0" >
+      limit #{limitStart} , #{limitEnd}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from py_bill
+    where Bill_No = #{billNo,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from py_bill
+    where Bill_No = #{billNo,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.watersupply.entity.PyBillExample" >
+    delete from py_bill
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.watersupply.entity.PyBill" >
+    insert into py_bill (Bill_No, Read_ID, User_No, 
+      Create_Date, Bill_Money, Real_Money, 
+      Balance, Balance_Date)
+    values (#{billNo,jdbcType=VARCHAR}, #{readId,jdbcType=INTEGER}, #{userNo,jdbcType=VARCHAR}, 
+      #{createDate,jdbcType=TIMESTAMP}, #{billMoney,jdbcType=DOUBLE}, #{realMoney,jdbcType=DOUBLE}, 
+      #{balance,jdbcType=BIT}, #{balanceDate,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.watersupply.entity.PyBill" >
+    insert into py_bill
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="billNo != null" >
+        Bill_No,
+      </if>
+      <if test="readId != null" >
+        Read_ID,
+      </if>
+      <if test="userNo != null" >
+        User_No,
+      </if>
+      <if test="createDate != null" >
+        Create_Date,
+      </if>
+      <if test="billMoney != null" >
+        Bill_Money,
+      </if>
+      <if test="realMoney != null" >
+        Real_Money,
+      </if>
+      <if test="balance != null" >
+        Balance,
+      </if>
+      <if test="balanceDate != null" >
+        Balance_Date,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="billNo != null" >
+        #{billNo,jdbcType=VARCHAR},
+      </if>
+      <if test="readId != null" >
+        #{readId,jdbcType=INTEGER},
+      </if>
+      <if test="userNo != null" >
+        #{userNo,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null" >
+        #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="billMoney != null" >
+        #{billMoney,jdbcType=DOUBLE},
+      </if>
+      <if test="realMoney != null" >
+        #{realMoney,jdbcType=DOUBLE},
+      </if>
+      <if test="balance != null" >
+        #{balance,jdbcType=BIT},
+      </if>
+      <if test="balanceDate != null" >
+        #{balanceDate,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.watersupply.entity.PyBillExample" resultType="java.lang.Integer" >
+    select count(*) from py_bill
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update py_bill
+    <set >
+      <if test="record.billNo != null" >
+        Bill_No = #{record.billNo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.readId != null" >
+        Read_ID = #{record.readId,jdbcType=INTEGER},
+      </if>
+      <if test="record.userNo != null" >
+        User_No = #{record.userNo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createDate != null" >
+        Create_Date = #{record.createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.billMoney != null" >
+        Bill_Money = #{record.billMoney,jdbcType=DOUBLE},
+      </if>
+      <if test="record.realMoney != null" >
+        Real_Money = #{record.realMoney,jdbcType=DOUBLE},
+      </if>
+      <if test="record.balance != null" >
+        Balance = #{record.balance,jdbcType=BIT},
+      </if>
+      <if test="record.balanceDate != null" >
+        Balance_Date = #{record.balanceDate,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update py_bill
+    set Bill_No = #{record.billNo,jdbcType=VARCHAR},
+      Read_ID = #{record.readId,jdbcType=INTEGER},
+      User_No = #{record.userNo,jdbcType=VARCHAR},
+      Create_Date = #{record.createDate,jdbcType=TIMESTAMP},
+      Bill_Money = #{record.billMoney,jdbcType=DOUBLE},
+      Real_Money = #{record.realMoney,jdbcType=DOUBLE},
+      Balance = #{record.balance,jdbcType=BIT},
+      Balance_Date = #{record.balanceDate,jdbcType=TIMESTAMP}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.watersupply.entity.PyBill" >
+    update py_bill
+    <set >
+      <if test="readId != null" >
+        Read_ID = #{readId,jdbcType=INTEGER},
+      </if>
+      <if test="userNo != null" >
+        User_No = #{userNo,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null" >
+        Create_Date = #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="billMoney != null" >
+        Bill_Money = #{billMoney,jdbcType=DOUBLE},
+      </if>
+      <if test="realMoney != null" >
+        Real_Money = #{realMoney,jdbcType=DOUBLE},
+      </if>
+      <if test="balance != null" >
+        Balance = #{balance,jdbcType=BIT},
+      </if>
+      <if test="balanceDate != null" >
+        Balance_Date = #{balanceDate,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where Bill_No = #{billNo,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.watersupply.entity.PyBill" >
+    update py_bill
+    set Read_ID = #{readId,jdbcType=INTEGER},
+      User_No = #{userNo,jdbcType=VARCHAR},
+      Create_Date = #{createDate,jdbcType=TIMESTAMP},
+      Bill_Money = #{billMoney,jdbcType=DOUBLE},
+      Real_Money = #{realMoney,jdbcType=DOUBLE},
+      Balance = #{balance,jdbcType=BIT},
+      Balance_Date = #{balanceDate,jdbcType=TIMESTAMP}
+    where Bill_No = #{billNo,jdbcType=VARCHAR}
+  </update>
+</mapper>

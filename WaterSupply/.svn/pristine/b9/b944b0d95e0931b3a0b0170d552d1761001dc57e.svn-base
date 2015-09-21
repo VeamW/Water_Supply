@@ -1,0 +1,437 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.watersupply.dao.RdReadMapper" >
+  <resultMap id="BaseResultMap" type="com.watersupply.entity.RdRead" >
+    <id column="ID" property="id" jdbcType="INTEGER" />
+    <result column="Read_Year" property="readYear" jdbcType="INTEGER" />
+    <result column="Read_Month" property="readMonth" jdbcType="INTEGER" />
+    <result column="User_No" property="userNo" jdbcType="VARCHAR" />
+    <result column="Meter_No" property="meterNo" jdbcType="VARCHAR" />
+    <result column="Max_Value" property="maxValue" jdbcType="INTEGER" />
+    <result column="Volume_Id" property="volumeId" jdbcType="INTEGER" />
+    <result column="Volume_Index" property="volumeIndex" jdbcType="INTEGER" />
+    <result column="Read_Emp_ID" property="readEmpId" jdbcType="INTEGER" />
+    <result column="Read_Date" property="readDate" jdbcType="TIMESTAMP" />
+    <result column="Pre_Value" property="preValue" jdbcType="INTEGER" />
+    <result column="Enter" property="enter" jdbcType="BIT" />
+    <result column="Cur_Value" property="curValue" jdbcType="INTEGER" />
+    <result column="Dial" property="dial" jdbcType="BIT" />
+    <result column="Amount" property="amount" jdbcType="INTEGER" />
+    <result column="Formula" property="formula" jdbcType="VARCHAR" />
+    <result column="Audit" property="audit" jdbcType="BIT" />
+    <result column="Audit_EmpID" property="auditEmpid" jdbcType="INTEGER" />
+    <result column="Audit_Date" property="auditDate" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    ID, Read_Year, Read_Month, User_No, Meter_No, Max_Value, Volume_Id, Volume_Index, 
+    Read_Emp_ID, Read_Date, Pre_Value, Enter, Cur_Value, Dial, Amount, Formula, Audit, 
+    Audit_EmpID, Audit_Date
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.watersupply.entity.RdReadExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from rd_read
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+    <if test="limitStart != null and limitStart>=0" >
+      limit #{limitStart} , #{limitEnd}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from rd_read
+    where ID = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from rd_read
+    where ID = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.watersupply.entity.RdReadExample" >
+    delete from rd_read
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.watersupply.entity.RdRead" >
+    <selectKey resultType="java.lang.Integer" keyProperty="id" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into rd_read (Read_Year, Read_Month, User_No, 
+      Meter_No, Max_Value, Volume_Id, 
+      Volume_Index, Read_Emp_ID, Read_Date, 
+      Pre_Value, Enter, Cur_Value, 
+      Dial, Amount, Formula, 
+      Audit, Audit_EmpID, Audit_Date
+      )
+    values (#{readYear,jdbcType=INTEGER}, #{readMonth,jdbcType=INTEGER}, #{userNo,jdbcType=VARCHAR}, 
+      #{meterNo,jdbcType=VARCHAR}, #{maxValue,jdbcType=INTEGER}, #{volumeId,jdbcType=INTEGER}, 
+      #{volumeIndex,jdbcType=INTEGER}, #{readEmpId,jdbcType=INTEGER}, #{readDate,jdbcType=TIMESTAMP}, 
+      #{preValue,jdbcType=INTEGER}, #{enter,jdbcType=BIT}, #{curValue,jdbcType=INTEGER}, 
+      #{dial,jdbcType=BIT}, #{amount,jdbcType=INTEGER}, #{formula,jdbcType=VARCHAR}, 
+      #{audit,jdbcType=BIT}, #{auditEmpid,jdbcType=INTEGER}, #{auditDate,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.watersupply.entity.RdRead" >
+    <selectKey resultType="java.lang.Integer" keyProperty="id" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into rd_read
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="readYear != null" >
+        Read_Year,
+      </if>
+      <if test="readMonth != null" >
+        Read_Month,
+      </if>
+      <if test="userNo != null" >
+        User_No,
+      </if>
+      <if test="meterNo != null" >
+        Meter_No,
+      </if>
+      <if test="maxValue != null" >
+        Max_Value,
+      </if>
+      <if test="volumeId != null" >
+        Volume_Id,
+      </if>
+      <if test="volumeIndex != null" >
+        Volume_Index,
+      </if>
+      <if test="readEmpId != null" >
+        Read_Emp_ID,
+      </if>
+      <if test="readDate != null" >
+        Read_Date,
+      </if>
+      <if test="preValue != null" >
+        Pre_Value,
+      </if>
+      <if test="enter != null" >
+        Enter,
+      </if>
+      <if test="curValue != null" >
+        Cur_Value,
+      </if>
+      <if test="dial != null" >
+        Dial,
+      </if>
+      <if test="amount != null" >
+        Amount,
+      </if>
+      <if test="formula != null" >
+        Formula,
+      </if>
+      <if test="audit != null" >
+        Audit,
+      </if>
+      <if test="auditEmpid != null" >
+        Audit_EmpID,
+      </if>
+      <if test="auditDate != null" >
+        Audit_Date,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="readYear != null" >
+        #{readYear,jdbcType=INTEGER},
+      </if>
+      <if test="readMonth != null" >
+        #{readMonth,jdbcType=INTEGER},
+      </if>
+      <if test="userNo != null" >
+        #{userNo,jdbcType=VARCHAR},
+      </if>
+      <if test="meterNo != null" >
+        #{meterNo,jdbcType=VARCHAR},
+      </if>
+      <if test="maxValue != null" >
+        #{maxValue,jdbcType=INTEGER},
+      </if>
+      <if test="volumeId != null" >
+        #{volumeId,jdbcType=INTEGER},
+      </if>
+      <if test="volumeIndex != null" >
+        #{volumeIndex,jdbcType=INTEGER},
+      </if>
+      <if test="readEmpId != null" >
+        #{readEmpId,jdbcType=INTEGER},
+      </if>
+      <if test="readDate != null" >
+        #{readDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="preValue != null" >
+        #{preValue,jdbcType=INTEGER},
+      </if>
+      <if test="enter != null" >
+        #{enter,jdbcType=BIT},
+      </if>
+      <if test="curValue != null" >
+        #{curValue,jdbcType=INTEGER},
+      </if>
+      <if test="dial != null" >
+        #{dial,jdbcType=BIT},
+      </if>
+      <if test="amount != null" >
+        #{amount,jdbcType=INTEGER},
+      </if>
+      <if test="formula != null" >
+        #{formula,jdbcType=VARCHAR},
+      </if>
+      <if test="audit != null" >
+        #{audit,jdbcType=BIT},
+      </if>
+      <if test="auditEmpid != null" >
+        #{auditEmpid,jdbcType=INTEGER},
+      </if>
+      <if test="auditDate != null" >
+        #{auditDate,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.watersupply.entity.RdReadExample" resultType="java.lang.Integer" >
+    select count(*) from rd_read
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update rd_read
+    <set >
+      <if test="record.id != null" >
+        ID = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.readYear != null" >
+        Read_Year = #{record.readYear,jdbcType=INTEGER},
+      </if>
+      <if test="record.readMonth != null" >
+        Read_Month = #{record.readMonth,jdbcType=INTEGER},
+      </if>
+      <if test="record.userNo != null" >
+        User_No = #{record.userNo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.meterNo != null" >
+        Meter_No = #{record.meterNo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.maxValue != null" >
+        Max_Value = #{record.maxValue,jdbcType=INTEGER},
+      </if>
+      <if test="record.volumeId != null" >
+        Volume_Id = #{record.volumeId,jdbcType=INTEGER},
+      </if>
+      <if test="record.volumeIndex != null" >
+        Volume_Index = #{record.volumeIndex,jdbcType=INTEGER},
+      </if>
+      <if test="record.readEmpId != null" >
+        Read_Emp_ID = #{record.readEmpId,jdbcType=INTEGER},
+      </if>
+      <if test="record.readDate != null" >
+        Read_Date = #{record.readDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.preValue != null" >
+        Pre_Value = #{record.preValue,jdbcType=INTEGER},
+      </if>
+      <if test="record.enter != null" >
+        Enter = #{record.enter,jdbcType=BIT},
+      </if>
+      <if test="record.curValue != null" >
+        Cur_Value = #{record.curValue,jdbcType=INTEGER},
+      </if>
+      <if test="record.dial != null" >
+        Dial = #{record.dial,jdbcType=BIT},
+      </if>
+      <if test="record.amount != null" >
+        Amount = #{record.amount,jdbcType=INTEGER},
+      </if>
+      <if test="record.formula != null" >
+        Formula = #{record.formula,jdbcType=VARCHAR},
+      </if>
+      <if test="record.audit != null" >
+        Audit = #{record.audit,jdbcType=BIT},
+      </if>
+      <if test="record.auditEmpid != null" >
+        Audit_EmpID = #{record.auditEmpid,jdbcType=INTEGER},
+      </if>
+      <if test="record.auditDate != null" >
+        Audit_Date = #{record.auditDate,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update rd_read
+    set ID = #{record.id,jdbcType=INTEGER},
+      Read_Year = #{record.readYear,jdbcType=INTEGER},
+      Read_Month = #{record.readMonth,jdbcType=INTEGER},
+      User_No = #{record.userNo,jdbcType=VARCHAR},
+      Meter_No = #{record.meterNo,jdbcType=VARCHAR},
+      Max_Value = #{record.maxValue,jdbcType=INTEGER},
+      Volume_Id = #{record.volumeId,jdbcType=INTEGER},
+      Volume_Index = #{record.volumeIndex,jdbcType=INTEGER},
+      Read_Emp_ID = #{record.readEmpId,jdbcType=INTEGER},
+      Read_Date = #{record.readDate,jdbcType=TIMESTAMP},
+      Pre_Value = #{record.preValue,jdbcType=INTEGER},
+      Enter = #{record.enter,jdbcType=BIT},
+      Cur_Value = #{record.curValue,jdbcType=INTEGER},
+      Dial = #{record.dial,jdbcType=BIT},
+      Amount = #{record.amount,jdbcType=INTEGER},
+      Formula = #{record.formula,jdbcType=VARCHAR},
+      Audit = #{record.audit,jdbcType=BIT},
+      Audit_EmpID = #{record.auditEmpid,jdbcType=INTEGER},
+      Audit_Date = #{record.auditDate,jdbcType=TIMESTAMP}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.watersupply.entity.RdRead" >
+    update rd_read
+    <set >
+      <if test="readYear != null" >
+        Read_Year = #{readYear,jdbcType=INTEGER},
+      </if>
+      <if test="readMonth != null" >
+        Read_Month = #{readMonth,jdbcType=INTEGER},
+      </if>
+      <if test="userNo != null" >
+        User_No = #{userNo,jdbcType=VARCHAR},
+      </if>
+      <if test="meterNo != null" >
+        Meter_No = #{meterNo,jdbcType=VARCHAR},
+      </if>
+      <if test="maxValue != null" >
+        Max_Value = #{maxValue,jdbcType=INTEGER},
+      </if>
+      <if test="volumeId != null" >
+        Volume_Id = #{volumeId,jdbcType=INTEGER},
+      </if>
+      <if test="volumeIndex != null" >
+        Volume_Index = #{volumeIndex,jdbcType=INTEGER},
+      </if>
+      <if test="readEmpId != null" >
+        Read_Emp_ID = #{readEmpId,jdbcType=INTEGER},
+      </if>
+      <if test="readDate != null" >
+        Read_Date = #{readDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="preValue != null" >
+        Pre_Value = #{preValue,jdbcType=INTEGER},
+      </if>
+      <if test="enter != null" >
+        Enter = #{enter,jdbcType=BIT},
+      </if>
+      <if test="curValue != null" >
+        Cur_Value = #{curValue,jdbcType=INTEGER},
+      </if>
+      <if test="dial != null" >
+        Dial = #{dial,jdbcType=BIT},
+      </if>
+      <if test="amount != null" >
+        Amount = #{amount,jdbcType=INTEGER},
+      </if>
+      <if test="formula != null" >
+        Formula = #{formula,jdbcType=VARCHAR},
+      </if>
+      <if test="audit != null" >
+        Audit = #{audit,jdbcType=BIT},
+      </if>
+      <if test="auditEmpid != null" >
+        Audit_EmpID = #{auditEmpid,jdbcType=INTEGER},
+      </if>
+      <if test="auditDate != null" >
+        Audit_Date = #{auditDate,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.watersupply.entity.RdRead" >
+    update rd_read
+    set Read_Year = #{readYear,jdbcType=INTEGER},
+      Read_Month = #{readMonth,jdbcType=INTEGER},
+      User_No = #{userNo,jdbcType=VARCHAR},
+      Meter_No = #{meterNo,jdbcType=VARCHAR},
+      Max_Value = #{maxValue,jdbcType=INTEGER},
+      Volume_Id = #{volumeId,jdbcType=INTEGER},
+      Volume_Index = #{volumeIndex,jdbcType=INTEGER},
+      Read_Emp_ID = #{readEmpId,jdbcType=INTEGER},
+      Read_Date = #{readDate,jdbcType=TIMESTAMP},
+      Pre_Value = #{preValue,jdbcType=INTEGER},
+      Enter = #{enter,jdbcType=BIT},
+      Cur_Value = #{curValue,jdbcType=INTEGER},
+      Dial = #{dial,jdbcType=BIT},
+      Amount = #{amount,jdbcType=INTEGER},
+      Formula = #{formula,jdbcType=VARCHAR},
+      Audit = #{audit,jdbcType=BIT},
+      Audit_EmpID = #{auditEmpid,jdbcType=INTEGER},
+      Audit_Date = #{auditDate,jdbcType=TIMESTAMP}
+    where ID = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

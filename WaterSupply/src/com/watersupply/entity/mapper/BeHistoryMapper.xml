@@ -1,0 +1,230 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.watersupply.dao.BeHistoryMapper" >
+  <resultMap id="BaseResultMap" type="com.watersupply.entity.BeHistory" >
+    <id column="ID" property="id" jdbcType="INTEGER" />
+    <result column="Order_No" property="orderNo" jdbcType="VARCHAR" />
+    <result column="Step_ID" property="stepId" jdbcType="INTEGER" />
+    <result column="Datee" property="datee" jdbcType="TIMESTAMP" />
+    <result column="Emp_ID" property="empId" jdbcType="INTEGER" />
+    <result column="Is_Back" property="isBack" jdbcType="BIT" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    ID, Order_No, Step_ID, Datee, Emp_ID, Is_Back
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.watersupply.entity.BeHistoryExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from be_history
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+    <if test="limitStart != null and limitStart>=0" >
+      limit #{limitStart} , #{limitEnd}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from be_history
+    where ID = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from be_history
+    where ID = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.watersupply.entity.BeHistoryExample" >
+    delete from be_history
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.watersupply.entity.BeHistory" >
+    <selectKey resultType="java.lang.Integer" keyProperty="id" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into be_history (Order_No, Step_ID, Datee, 
+      Emp_ID, Is_Back)
+    values (#{orderNo,jdbcType=VARCHAR}, #{stepId,jdbcType=INTEGER}, #{datee,jdbcType=TIMESTAMP}, 
+      #{empId,jdbcType=INTEGER}, #{isBack,jdbcType=BIT})
+  </insert>
+  <insert id="insertSelective" parameterType="com.watersupply.entity.BeHistory" >
+    <selectKey resultType="java.lang.Integer" keyProperty="id" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into be_history
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="orderNo != null" >
+        Order_No,
+      </if>
+      <if test="stepId != null" >
+        Step_ID,
+      </if>
+      <if test="datee != null" >
+        Datee,
+      </if>
+      <if test="empId != null" >
+        Emp_ID,
+      </if>
+      <if test="isBack != null" >
+        Is_Back,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="orderNo != null" >
+        #{orderNo,jdbcType=VARCHAR},
+      </if>
+      <if test="stepId != null" >
+        #{stepId,jdbcType=INTEGER},
+      </if>
+      <if test="datee != null" >
+        #{datee,jdbcType=TIMESTAMP},
+      </if>
+      <if test="empId != null" >
+        #{empId,jdbcType=INTEGER},
+      </if>
+      <if test="isBack != null" >
+        #{isBack,jdbcType=BIT},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.watersupply.entity.BeHistoryExample" resultType="java.lang.Integer" >
+    select count(*) from be_history
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update be_history
+    <set >
+      <if test="record.id != null" >
+        ID = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.orderNo != null" >
+        Order_No = #{record.orderNo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.stepId != null" >
+        Step_ID = #{record.stepId,jdbcType=INTEGER},
+      </if>
+      <if test="record.datee != null" >
+        Datee = #{record.datee,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.empId != null" >
+        Emp_ID = #{record.empId,jdbcType=INTEGER},
+      </if>
+      <if test="record.isBack != null" >
+        Is_Back = #{record.isBack,jdbcType=BIT},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update be_history
+    set ID = #{record.id,jdbcType=INTEGER},
+      Order_No = #{record.orderNo,jdbcType=VARCHAR},
+      Step_ID = #{record.stepId,jdbcType=INTEGER},
+      Datee = #{record.datee,jdbcType=TIMESTAMP},
+      Emp_ID = #{record.empId,jdbcType=INTEGER},
+      Is_Back = #{record.isBack,jdbcType=BIT}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.watersupply.entity.BeHistory" >
+    update be_history
+    <set >
+      <if test="orderNo != null" >
+        Order_No = #{orderNo,jdbcType=VARCHAR},
+      </if>
+      <if test="stepId != null" >
+        Step_ID = #{stepId,jdbcType=INTEGER},
+      </if>
+      <if test="datee != null" >
+        Datee = #{datee,jdbcType=TIMESTAMP},
+      </if>
+      <if test="empId != null" >
+        Emp_ID = #{empId,jdbcType=INTEGER},
+      </if>
+      <if test="isBack != null" >
+        Is_Back = #{isBack,jdbcType=BIT},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.watersupply.entity.BeHistory" >
+    update be_history
+    set Order_No = #{orderNo,jdbcType=VARCHAR},
+      Step_ID = #{stepId,jdbcType=INTEGER},
+      Datee = #{datee,jdbcType=TIMESTAMP},
+      Emp_ID = #{empId,jdbcType=INTEGER},
+      Is_Back = #{isBack,jdbcType=BIT}
+    where ID = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

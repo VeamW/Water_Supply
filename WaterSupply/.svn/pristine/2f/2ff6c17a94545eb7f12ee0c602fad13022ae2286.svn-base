@@ -1,0 +1,26 @@
+package com.utils;
+
+import java.sql.Date;
+
+public class Helper {
+	public final static String code = "B1";
+	
+	public static String getBE_OrderCode(){
+		
+		//工单编号生成：前两位表示工单类型，中间8位表示建单日期，最后四位是按工单类型和月份的流水号
+		String str = code +"-"
+				+(new Date(System.currentTimeMillis()).toLocalDate()).toString().replace("-", "")+"-"+"0001";
+				;
+		
+		return str;
+	}
+	
+	
+	
+	
+	public static void main(String[] args) {
+		System.out.println("生成的工单编号为："+getBE_OrderCode());
+	}
+	
+	
+}

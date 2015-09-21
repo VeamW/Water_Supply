@@ -1,0 +1,20 @@
+package com.watersupply.controller;
+
+import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+
+import com.watersupply.entity.SyMeterType;
+import com.watersupply.service.SyMeterTypeService;
+
+@Controller
+@RequestMapping("/meterType")
+public class SyMeterTypeController {
+
+	
+	
+}

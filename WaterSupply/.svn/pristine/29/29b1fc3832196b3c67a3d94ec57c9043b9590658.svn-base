@@ -1,0 +1,93 @@
+package com.watersupply.service;
+
+import java.util.List;
+
+import org.mybatis.spring.SqlSessionTemplate;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.watersupply.dao.UsUserMapper;
+import com.watersupply.entity.UsUser;
+import com.watersupply.entity.UsUserExample;
+
+@Service
+public class Test2 implements UsUserMapper{
+	
+	@Autowired
+	private UsUserMapper testDao;
+	
+	
+	
+	@Override
+	public List getAll() {
+		// TODO Auto-generated method stub
+		return testDao.getAll();
+	}
+
+	@Override
+	public int countByExample(UsUserExample example) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public int deleteByExample(UsUserExample example) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public int deleteByPrimaryKey(String userNo) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public int insert(UsUser record) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public int insertSelective(UsUser record) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public List<UsUser> selectByExample(UsUserExample example) {
+		// TODO Auto-generated method stub
+		return testDao.selectByExample(example);
+	}
+
+	@Override
+	public UsUser selectByPrimaryKey(String userNo) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public int updateByExampleSelective(UsUser record, UsUserExample example) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public int updateByExample(UsUser record, UsUserExample example) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public int updateByPrimaryKeySelective(UsUser record) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public int updateByPrimaryKey(UsUser record) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+}

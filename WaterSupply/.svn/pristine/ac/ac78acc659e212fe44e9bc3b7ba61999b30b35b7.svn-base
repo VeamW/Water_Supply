@@ -1,0 +1,246 @@
+package com.watersupply.controller;
+
+import java.io.IOException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import org.apache.naming.java.javaURLContextFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import com.watersupply.entity.UsMeter;
+import com.watersupply.entity.UsUser;
+import com.watersupply.service.UsUsersService;
+
+@Controller
+@RequestMapping("/userAction")
+public class UsUsersController {
+	
+	private List<UsUser> list ;
+	public List<UsUser> getList() {
+		return list;
+	}
+	public void setList(List<UsUser> list) {
+		this.list = list;
+	}
+	
+	
+	@Autowired
+	private UsUsersService usUsersControl;
+	
+	@RequestMapping("/getAll")
+	@ResponseBody
+	public List<UsUser> getAllUsUser(@RequestParam("type")String type,HttpServletResponse response) throws IOException{
+		list = new ArrayList<UsUser>();
+		if (type.equals("给所有用户发送")) {
+			list = usUsersControl.getAll();
+		}
+		if (type.equals("只给欠费用户发送")) {
+			list = usUsersControl.getUserQF();
+		}
+		return list;
+	}
+	
+	@RequestMapping("/getUsers")
+	public String getUsers(HttpServletRequest request){
+			list = usUsersControl.getAll();
+			for (UsUser usUser : list) {
+				System.out.println(usUser.getUserName());
+			}
+			request.setAttribute("list", list);
+			
+		return "/page/user_sendMsg.jsp";
+	}
+	
+	
+	@RequestMapping("/getUserBy")
+	@ResponseBody
+	public UsUser getUserBy(@RequestParam("no")String uNo,@RequestParam("name")String uName,@RequestParam("jm")String jm,@RequestParam("phone")String phone,@RequestParam("address")String address) throws IOException{
+		System.out.println(uName);
+		UsUser user = new UsUser();
+		if (uNo=="") {
+			uNo=null;
+		}
+		if (uName=="") {
+			uName=null;
+		}
+		if (jm=="") {
+			jm=null;
+		}
+		if (phone=="") {
+			phone=null;
+		}
+		if (address=="") {
+			address=null;
+		}
+		user.setUserNo(uNo);
+		user.setUserName(uName);
+		user.setAbc(jm);
+		user.setPhone(phone);
+		user.setAddress(address);
+		UsUser u = usUsersControl.getUserBy(user);
+		return u;
+		
+	}
+	
+	
+	
+	@RequestMapping("/xh")
+	@ResponseBody
+	public String xh(@RequestParam("no")String no) throws IOException{
+		System.out.println("into...");
+		int count = usUsersControl.xh(no);
+		if (count>0) {
+			return "销户成功";
+		}else{
+			return  "销户失败";
+		}
+		
+	}
+	
+	
+
+	//档案号管理查询
+	@RequestMapping("/getUserby")
+	@ResponseBody
+	public UsUser getUserby(@RequestParam("no")String uNo,@RequestParam("name")String uName,@RequestParam("jm")String jm,@RequestParam("phone")String phone,@RequestParam("address")String address) throws IOException{
+		System.out.println(uName);
+		UsUser user = new UsUser();
+		if (uNo=="") {
+			uNo=null;
+		}
+		if (uName=="") {
+			uName=null;
+		}
+		if (jm=="") {
+			jm=null;
+		}
+		if (phone=="") {
+			phone=null;
+		}
+		if (address=="") {
+			address=null;
+		}
+		user.setUserNo(uNo);
+		user.setUserName(uName);
+		user.setAbc(jm);
+		user.setPhone(phone);
+		user.setAddress(address);
+		UsUser u = usUsersControl.getUserby(user);
+		return u;
+		
+	}
+	
+	
+	//保存档案号
+	@RequestMapping("/cd")
+	@ResponseBody
+	public String cd(@RequestParam("no")String no,@RequestParam("docNum")String docNum){
+		UsUser us = new UsUser();
+		us.setUserNo(no);
+		us.setDocNum(docNum);
+		int count = usUsersControl.cd(us);
+		System.out.println(count);
+		if (count>0) {
+			return "存档成功!";
+		}else{
+			return "存档失败!";
+		}
+	}
+	
+	
+	
+	//快捷新户
+	@RequestMapping("/addUser")
+	@ResponseBody
+	public String addUser(@RequestParam("xq")String xq,@RequestParam("name")String name,@RequestParam("type")String type,@RequestParam("skfs")String skfs  
+			,@RequestParam("phone")String phone,@RequestParam("msnno")String msnno,@RequestParam("bank")String bank,@RequestParam("bankno")String bankno
+			,@RequestParam("bh")String bh,@RequestParam("ht")String ht,@RequestParam("qdsj")String qdsj,@RequestParam("bsm")String bsm
+			,@RequestParam("qsdm")int qsdm,@RequestParam("sblx")int sblx,@RequestParam("sbkj")String sbkj,@RequestParam("address")String address
+			,@RequestParam("max")int max,@RequestParam("zbrq")java.sql.Date zbrq,@RequestParam("sbcj")String sbcj,@RequestParam("khsj")String khsj
+			,@RequestParam("txtTibi")String tibi) throws ParseException{
+		
+		SimpleDateFormat formate = new SimpleDateFormat("yyyy-MM-dd");
+		UsUser record = new UsUser();
+		//设置用户编号：辖区+流水号
+		record.setUserNo(xq+new java.sql.Date(System.currentTimeMillis()).toLocaleString().toString().substring(0,10).replace("-", ""));
+		record.setUserName(name);record.setCreateDate(formate.parse(khsj));record.setAddress(address);
+		record.setUserType(type);record.setAreaId(Integer.parseInt(xq));record.setPhone(phone);record.setSmsPhone(msnno);
+		record.setPayType(skfs);record.setBankName(bank);record.setBankNum(bankno);record.setFormula(tibi);
+		record.setDocNum(bh);record.setContractNum(ht);record.setContractDate(formate.parse(qdsj));
+		//水表信息
+		UsMeter meter = new UsMeter();
+		meter.setMeterNo("M"+record.getUserNo()+"-01");
+		meter.setUserNo(record.getUserNo());
+		meter.setMeterName(bsm);
+		meter.setMeterTypeId(sblx);
+		meter.setMaxValue(max);
+		meter.setStartValue(qsdm);
+		meter.setSetupDate(zbrq);
+		meter.setFactory(sbcj);
+		meter.setDisabled(false);
+		//给用户设置水表ID
+		record.setMeterId(meter.getMeterNo());
+		record.setDisabled(false);
+		int countu=0;
+		int countm =0;
+		String msg = null;
+		try {
+			//添加用户信息
+			countu = usUsersControl.insertSelective(record);
+			//添加水表信息
+			countm =usUsersControl.insertMeter(meter);
+			
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+			 msg =  "failure!";
+		}finally{
+			if (countu>0&&countm>0) {
+				msg =  "successful!";
+			}else{
+				msg = "failure!";
+			}
+		}
+		
+		
+		
+		return msg;
+	}
+	
+	//根据条件查询用户
+	@RequestMapping("/selectByPrimaryUser")
+	@ResponseBody
+	public String selectByPrimaryUser(HashMap map){
+		list = usUsersControl.selectByPrimaryUser(map);
+		for (UsUser suser : list) {
+			System.out.println("selectByPrimaryUser---------"+suser.getUserName());
+		}
+		return null;
+	}
+	
+	
+	
+	public static void main(String []args) throws ParseException{
+		//System.out.println(new java.sql.Date(System.currentTimeMillis()).toLocalDate().toString().replace("-", ""));
+		SimpleDateFormat formate = new SimpleDateFormat("yyyy-MM-dd");
+		
+		java.sql.Date date = new java.sql.Date(System.currentTimeMillis());
+		System.out.println(date.toLocaleString());
+		
+	}	
+	
+	
+	
+
+}

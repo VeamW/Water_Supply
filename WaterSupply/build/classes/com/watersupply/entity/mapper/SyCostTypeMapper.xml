@@ -1,0 +1,277 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.watersupply.dao.SyCostTypeMapper" >
+  <resultMap id="BaseResultMap" type="com.watersupply.entity.SyCostType" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="Kind" property="kind" jdbcType="INTEGER" />
+    <result column="Code" property="code" jdbcType="VARCHAR" />
+    <result column="Cost_Type_Name" property="costTypeName" jdbcType="VARCHAR" />
+    <result column="Full_Name" property="fullName" jdbcType="VARCHAR" />
+    <result column="Price" property="price" jdbcType="DOUBLE" />
+    <result column="Surcharge_Text" property="surchargeText" jdbcType="VARCHAR" />
+    <result column="Remark" property="remark" jdbcType="VARCHAR" />
+    <result column="Disabled" property="disabled" jdbcType="BIT" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    id, Kind, Code, Cost_Type_Name, Full_Name, Price, Surcharge_Text, Remark, Disabled
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.watersupply.entity.SyCostTypeExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from sy_cost_type
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+    <if test="limitStart != null and limitStart>=0" >
+      limit #{limitStart} , #{limitEnd}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from sy_cost_type
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from sy_cost_type
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.watersupply.entity.SyCostTypeExample" >
+    delete from sy_cost_type
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.watersupply.entity.SyCostType" >
+    <selectKey resultType="java.lang.Integer" keyProperty="id" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into sy_cost_type (Kind, Code, Cost_Type_Name, 
+      Full_Name, Price, Surcharge_Text, 
+      Remark, Disabled)
+    values (#{kind,jdbcType=INTEGER}, #{code,jdbcType=VARCHAR}, #{costTypeName,jdbcType=VARCHAR}, 
+      #{fullName,jdbcType=VARCHAR}, #{price,jdbcType=DOUBLE}, #{surchargeText,jdbcType=VARCHAR}, 
+      #{remark,jdbcType=VARCHAR}, #{disabled,jdbcType=BIT})
+  </insert>
+  <insert id="insertSelective" parameterType="com.watersupply.entity.SyCostType" >
+    <selectKey resultType="java.lang.Integer" keyProperty="id" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into sy_cost_type
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="kind != null" >
+        Kind,
+      </if>
+      <if test="code != null" >
+        Code,
+      </if>
+      <if test="costTypeName != null" >
+        Cost_Type_Name,
+      </if>
+      <if test="fullName != null" >
+        Full_Name,
+      </if>
+      <if test="price != null" >
+        Price,
+      </if>
+      <if test="surchargeText != null" >
+        Surcharge_Text,
+      </if>
+      <if test="remark != null" >
+        Remark,
+      </if>
+      <if test="disabled != null" >
+        Disabled,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="kind != null" >
+        #{kind,jdbcType=INTEGER},
+      </if>
+      <if test="code != null" >
+        #{code,jdbcType=VARCHAR},
+      </if>
+      <if test="costTypeName != null" >
+        #{costTypeName,jdbcType=VARCHAR},
+      </if>
+      <if test="fullName != null" >
+        #{fullName,jdbcType=VARCHAR},
+      </if>
+      <if test="price != null" >
+        #{price,jdbcType=DOUBLE},
+      </if>
+      <if test="surchargeText != null" >
+        #{surchargeText,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null" >
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="disabled != null" >
+        #{disabled,jdbcType=BIT},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.watersupply.entity.SyCostTypeExample" resultType="java.lang.Integer" >
+    select count(*) from sy_cost_type
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update sy_cost_type
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.kind != null" >
+        Kind = #{record.kind,jdbcType=INTEGER},
+      </if>
+      <if test="record.code != null" >
+        Code = #{record.code,jdbcType=VARCHAR},
+      </if>
+      <if test="record.costTypeName != null" >
+        Cost_Type_Name = #{record.costTypeName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.fullName != null" >
+        Full_Name = #{record.fullName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.price != null" >
+        Price = #{record.price,jdbcType=DOUBLE},
+      </if>
+      <if test="record.surchargeText != null" >
+        Surcharge_Text = #{record.surchargeText,jdbcType=VARCHAR},
+      </if>
+      <if test="record.remark != null" >
+        Remark = #{record.remark,jdbcType=VARCHAR},
+      </if>
+      <if test="record.disabled != null" >
+        Disabled = #{record.disabled,jdbcType=BIT},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update sy_cost_type
+    set id = #{record.id,jdbcType=INTEGER},
+      Kind = #{record.kind,jdbcType=INTEGER},
+      Code = #{record.code,jdbcType=VARCHAR},
+      Cost_Type_Name = #{record.costTypeName,jdbcType=VARCHAR},
+      Full_Name = #{record.fullName,jdbcType=VARCHAR},
+      Price = #{record.price,jdbcType=DOUBLE},
+      Surcharge_Text = #{record.surchargeText,jdbcType=VARCHAR},
+      Remark = #{record.remark,jdbcType=VARCHAR},
+      Disabled = #{record.disabled,jdbcType=BIT}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.watersupply.entity.SyCostType" >
+    update sy_cost_type
+    <set >
+      <if test="kind != null" >
+        Kind = #{kind,jdbcType=INTEGER},
+      </if>
+      <if test="code != null" >
+        Code = #{code,jdbcType=VARCHAR},
+      </if>
+      <if test="costTypeName != null" >
+        Cost_Type_Name = #{costTypeName,jdbcType=VARCHAR},
+      </if>
+      <if test="fullName != null" >
+        Full_Name = #{fullName,jdbcType=VARCHAR},
+      </if>
+      <if test="price != null" >
+        Price = #{price,jdbcType=DOUBLE},
+      </if>
+      <if test="surchargeText != null" >
+        Surcharge_Text = #{surchargeText,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null" >
+        Remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="disabled != null" >
+        Disabled = #{disabled,jdbcType=BIT},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.watersupply.entity.SyCostType" >
+    update sy_cost_type
+    set Kind = #{kind,jdbcType=INTEGER},
+      Code = #{code,jdbcType=VARCHAR},
+      Cost_Type_Name = #{costTypeName,jdbcType=VARCHAR},
+      Full_Name = #{fullName,jdbcType=VARCHAR},
+      Price = #{price,jdbcType=DOUBLE},
+      Surcharge_Text = #{surchargeText,jdbcType=VARCHAR},
+      Remark = #{remark,jdbcType=VARCHAR},
+      Disabled = #{disabled,jdbcType=BIT}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

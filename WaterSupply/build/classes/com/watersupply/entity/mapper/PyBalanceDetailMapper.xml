@@ -1,0 +1,342 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.watersupply.dao.PyBalanceDetailMapper" >
+  <resultMap id="BaseResultMap" type="com.watersupply.entity.PyBalanceDetail" >
+    <id column="ID" property="id" jdbcType="INTEGER" />
+    <result column="Parent_ID" property="parentId" jdbcType="INTEGER" />
+    <result column="User_No" property="userNo" jdbcType="VARCHAR" />
+    <result column="Balance_Date" property="balanceDate" jdbcType="TIMESTAMP" />
+    <result column="Balance_Money" property="balanceMoney" jdbcType="DOUBLE" />
+    <result column="Bill_No" property="billNo" jdbcType="VARCHAR" />
+    <result column="Bill_Detail_ID" property="billDetailId" jdbcType="INTEGER" />
+    <result column="Cost_Type_Code" property="costTypeCode" jdbcType="VARCHAR" />
+    <result column="Detail_Real_Money1" property="detailRealMoney1" jdbcType="DOUBLE" />
+    <result column="Detail_Real_Money2" property="detailRealMoney2" jdbcType="DOUBLE" />
+    <result column="Pay_No" property="payNo" jdbcType="VARCHAR" />
+    <result column="Pay_Use_Money1" property="payUseMoney1" jdbcType="DOUBLE" />
+    <result column="Pay_Use_Money2" property="payUseMoney2" jdbcType="DOUBLE" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    ID, Parent_ID, User_No, Balance_Date, Balance_Money, Bill_No, Bill_Detail_ID, Cost_Type_Code, 
+    Detail_Real_Money1, Detail_Real_Money2, Pay_No, Pay_Use_Money1, Pay_Use_Money2
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.watersupply.entity.PyBalanceDetailExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from py_balance_detail
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+    <if test="limitStart != null and limitStart>=0" >
+      limit #{limitStart} , #{limitEnd}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from py_balance_detail
+    where ID = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from py_balance_detail
+    where ID = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.watersupply.entity.PyBalanceDetailExample" >
+    delete from py_balance_detail
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.watersupply.entity.PyBalanceDetail" >
+    <selectKey resultType="java.lang.Integer" keyProperty="id" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into py_balance_detail (Parent_ID, User_No, Balance_Date, 
+      Balance_Money, Bill_No, Bill_Detail_ID, 
+      Cost_Type_Code, Detail_Real_Money1, Detail_Real_Money2, 
+      Pay_No, Pay_Use_Money1, Pay_Use_Money2
+      )
+    values (#{parentId,jdbcType=INTEGER}, #{userNo,jdbcType=VARCHAR}, #{balanceDate,jdbcType=TIMESTAMP}, 
+      #{balanceMoney,jdbcType=DOUBLE}, #{billNo,jdbcType=VARCHAR}, #{billDetailId,jdbcType=INTEGER}, 
+      #{costTypeCode,jdbcType=VARCHAR}, #{detailRealMoney1,jdbcType=DOUBLE}, #{detailRealMoney2,jdbcType=DOUBLE}, 
+      #{payNo,jdbcType=VARCHAR}, #{payUseMoney1,jdbcType=DOUBLE}, #{payUseMoney2,jdbcType=DOUBLE}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.watersupply.entity.PyBalanceDetail" >
+    <selectKey resultType="java.lang.Integer" keyProperty="id" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into py_balance_detail
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="parentId != null" >
+        Parent_ID,
+      </if>
+      <if test="userNo != null" >
+        User_No,
+      </if>
+      <if test="balanceDate != null" >
+        Balance_Date,
+      </if>
+      <if test="balanceMoney != null" >
+        Balance_Money,
+      </if>
+      <if test="billNo != null" >
+        Bill_No,
+      </if>
+      <if test="billDetailId != null" >
+        Bill_Detail_ID,
+      </if>
+      <if test="costTypeCode != null" >
+        Cost_Type_Code,
+      </if>
+      <if test="detailRealMoney1 != null" >
+        Detail_Real_Money1,
+      </if>
+      <if test="detailRealMoney2 != null" >
+        Detail_Real_Money2,
+      </if>
+      <if test="payNo != null" >
+        Pay_No,
+      </if>
+      <if test="payUseMoney1 != null" >
+        Pay_Use_Money1,
+      </if>
+      <if test="payUseMoney2 != null" >
+        Pay_Use_Money2,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="parentId != null" >
+        #{parentId,jdbcType=INTEGER},
+      </if>
+      <if test="userNo != null" >
+        #{userNo,jdbcType=VARCHAR},
+      </if>
+      <if test="balanceDate != null" >
+        #{balanceDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="balanceMoney != null" >
+        #{balanceMoney,jdbcType=DOUBLE},
+      </if>
+      <if test="billNo != null" >
+        #{billNo,jdbcType=VARCHAR},
+      </if>
+      <if test="billDetailId != null" >
+        #{billDetailId,jdbcType=INTEGER},
+      </if>
+      <if test="costTypeCode != null" >
+        #{costTypeCode,jdbcType=VARCHAR},
+      </if>
+      <if test="detailRealMoney1 != null" >
+        #{detailRealMoney1,jdbcType=DOUBLE},
+      </if>
+      <if test="detailRealMoney2 != null" >
+        #{detailRealMoney2,jdbcType=DOUBLE},
+      </if>
+      <if test="payNo != null" >
+        #{payNo,jdbcType=VARCHAR},
+      </if>
+      <if test="payUseMoney1 != null" >
+        #{payUseMoney1,jdbcType=DOUBLE},
+      </if>
+      <if test="payUseMoney2 != null" >
+        #{payUseMoney2,jdbcType=DOUBLE},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.watersupply.entity.PyBalanceDetailExample" resultType="java.lang.Integer" >
+    select count(*) from py_balance_detail
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update py_balance_detail
+    <set >
+      <if test="record.id != null" >
+        ID = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.parentId != null" >
+        Parent_ID = #{record.parentId,jdbcType=INTEGER},
+      </if>
+      <if test="record.userNo != null" >
+        User_No = #{record.userNo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.balanceDate != null" >
+        Balance_Date = #{record.balanceDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.balanceMoney != null" >
+        Balance_Money = #{record.balanceMoney,jdbcType=DOUBLE},
+      </if>
+      <if test="record.billNo != null" >
+        Bill_No = #{record.billNo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.billDetailId != null" >
+        Bill_Detail_ID = #{record.billDetailId,jdbcType=INTEGER},
+      </if>
+      <if test="record.costTypeCode != null" >
+        Cost_Type_Code = #{record.costTypeCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.detailRealMoney1 != null" >
+        Detail_Real_Money1 = #{record.detailRealMoney1,jdbcType=DOUBLE},
+      </if>
+      <if test="record.detailRealMoney2 != null" >
+        Detail_Real_Money2 = #{record.detailRealMoney2,jdbcType=DOUBLE},
+      </if>
+      <if test="record.payNo != null" >
+        Pay_No = #{record.payNo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.payUseMoney1 != null" >
+        Pay_Use_Money1 = #{record.payUseMoney1,jdbcType=DOUBLE},
+      </if>
+      <if test="record.payUseMoney2 != null" >
+        Pay_Use_Money2 = #{record.payUseMoney2,jdbcType=DOUBLE},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update py_balance_detail
+    set ID = #{record.id,jdbcType=INTEGER},
+      Parent_ID = #{record.parentId,jdbcType=INTEGER},
+      User_No = #{record.userNo,jdbcType=VARCHAR},
+      Balance_Date = #{record.balanceDate,jdbcType=TIMESTAMP},
+      Balance_Money = #{record.balanceMoney,jdbcType=DOUBLE},
+      Bill_No = #{record.billNo,jdbcType=VARCHAR},
+      Bill_Detail_ID = #{record.billDetailId,jdbcType=INTEGER},
+      Cost_Type_Code = #{record.costTypeCode,jdbcType=VARCHAR},
+      Detail_Real_Money1 = #{record.detailRealMoney1,jdbcType=DOUBLE},
+      Detail_Real_Money2 = #{record.detailRealMoney2,jdbcType=DOUBLE},
+      Pay_No = #{record.payNo,jdbcType=VARCHAR},
+      Pay_Use_Money1 = #{record.payUseMoney1,jdbcType=DOUBLE},
+      Pay_Use_Money2 = #{record.payUseMoney2,jdbcType=DOUBLE}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.watersupply.entity.PyBalanceDetail" >
+    update py_balance_detail
+    <set >
+      <if test="parentId != null" >
+        Parent_ID = #{parentId,jdbcType=INTEGER},
+      </if>
+      <if test="userNo != null" >
+        User_No = #{userNo,jdbcType=VARCHAR},
+      </if>
+      <if test="balanceDate != null" >
+        Balance_Date = #{balanceDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="balanceMoney != null" >
+        Balance_Money = #{balanceMoney,jdbcType=DOUBLE},
+      </if>
+      <if test="billNo != null" >
+        Bill_No = #{billNo,jdbcType=VARCHAR},
+      </if>
+      <if test="billDetailId != null" >
+        Bill_Detail_ID = #{billDetailId,jdbcType=INTEGER},
+      </if>
+      <if test="costTypeCode != null" >
+        Cost_Type_Code = #{costTypeCode,jdbcType=VARCHAR},
+      </if>
+      <if test="detailRealMoney1 != null" >
+        Detail_Real_Money1 = #{detailRealMoney1,jdbcType=DOUBLE},
+      </if>
+      <if test="detailRealMoney2 != null" >
+        Detail_Real_Money2 = #{detailRealMoney2,jdbcType=DOUBLE},
+      </if>
+      <if test="payNo != null" >
+        Pay_No = #{payNo,jdbcType=VARCHAR},
+      </if>
+      <if test="payUseMoney1 != null" >
+        Pay_Use_Money1 = #{payUseMoney1,jdbcType=DOUBLE},
+      </if>
+      <if test="payUseMoney2 != null" >
+        Pay_Use_Money2 = #{payUseMoney2,jdbcType=DOUBLE},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.watersupply.entity.PyBalanceDetail" >
+    update py_balance_detail
+    set Parent_ID = #{parentId,jdbcType=INTEGER},
+      User_No = #{userNo,jdbcType=VARCHAR},
+      Balance_Date = #{balanceDate,jdbcType=TIMESTAMP},
+      Balance_Money = #{balanceMoney,jdbcType=DOUBLE},
+      Bill_No = #{billNo,jdbcType=VARCHAR},
+      Bill_Detail_ID = #{billDetailId,jdbcType=INTEGER},
+      Cost_Type_Code = #{costTypeCode,jdbcType=VARCHAR},
+      Detail_Real_Money1 = #{detailRealMoney1,jdbcType=DOUBLE},
+      Detail_Real_Money2 = #{detailRealMoney2,jdbcType=DOUBLE},
+      Pay_No = #{payNo,jdbcType=VARCHAR},
+      Pay_Use_Money1 = #{payUseMoney1,jdbcType=DOUBLE},
+      Pay_Use_Money2 = #{payUseMoney2,jdbcType=DOUBLE}
+    where ID = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

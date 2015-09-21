@@ -1,0 +1,247 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.watersupply.dao.IvInInvoiceMapper" >
+  <resultMap id="BaseResultMap" type="com.watersupply.entity.IvInInvoice" >
+    <id column="ID" property="id" jdbcType="INTEGER" />
+    <result column="Invoice_Type" property="invoiceType" jdbcType="INTEGER" />
+    <result column="Start_No" property="startNo" jdbcType="VARCHAR" />
+    <result column="End_No" property="endNo" jdbcType="VARCHAR" />
+    <result column="Counts" property="counts" jdbcType="INTEGER" />
+    <result column="In_Date" property="inDate" jdbcType="TIMESTAMP" />
+    <result column="In_Emp_ID" property="inEmpId" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    ID, Invoice_Type, Start_No, End_No, Counts, In_Date, In_Emp_ID
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.watersupply.entity.IvInInvoiceExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from iv_in_invoice
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+    <if test="limitStart != null and limitStart>=0" >
+      limit #{limitStart} , #{limitEnd}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from iv_in_invoice
+    where ID = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from iv_in_invoice
+    where ID = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.watersupply.entity.IvInInvoiceExample" >
+    delete from iv_in_invoice
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.watersupply.entity.IvInInvoice" >
+    <selectKey resultType="java.lang.Integer" keyProperty="id" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into iv_in_invoice (Invoice_Type, Start_No, End_No, 
+      Counts, In_Date, In_Emp_ID
+      )
+    values (#{invoiceType,jdbcType=INTEGER}, #{startNo,jdbcType=VARCHAR}, #{endNo,jdbcType=VARCHAR}, 
+      #{counts,jdbcType=INTEGER}, #{inDate,jdbcType=TIMESTAMP}, #{inEmpId,jdbcType=INTEGER}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.watersupply.entity.IvInInvoice" >
+    <selectKey resultType="java.lang.Integer" keyProperty="id" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into iv_in_invoice
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="invoiceType != null" >
+        Invoice_Type,
+      </if>
+      <if test="startNo != null" >
+        Start_No,
+      </if>
+      <if test="endNo != null" >
+        End_No,
+      </if>
+      <if test="counts != null" >
+        Counts,
+      </if>
+      <if test="inDate != null" >
+        In_Date,
+      </if>
+      <if test="inEmpId != null" >
+        In_Emp_ID,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="invoiceType != null" >
+        #{invoiceType,jdbcType=INTEGER},
+      </if>
+      <if test="startNo != null" >
+        #{startNo,jdbcType=VARCHAR},
+      </if>
+      <if test="endNo != null" >
+        #{endNo,jdbcType=VARCHAR},
+      </if>
+      <if test="counts != null" >
+        #{counts,jdbcType=INTEGER},
+      </if>
+      <if test="inDate != null" >
+        #{inDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="inEmpId != null" >
+        #{inEmpId,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.watersupply.entity.IvInInvoiceExample" resultType="java.lang.Integer" >
+    select count(*) from iv_in_invoice
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update iv_in_invoice
+    <set >
+      <if test="record.id != null" >
+        ID = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.invoiceType != null" >
+        Invoice_Type = #{record.invoiceType,jdbcType=INTEGER},
+      </if>
+      <if test="record.startNo != null" >
+        Start_No = #{record.startNo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.endNo != null" >
+        End_No = #{record.endNo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.counts != null" >
+        Counts = #{record.counts,jdbcType=INTEGER},
+      </if>
+      <if test="record.inDate != null" >
+        In_Date = #{record.inDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.inEmpId != null" >
+        In_Emp_ID = #{record.inEmpId,jdbcType=INTEGER},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update iv_in_invoice
+    set ID = #{record.id,jdbcType=INTEGER},
+      Invoice_Type = #{record.invoiceType,jdbcType=INTEGER},
+      Start_No = #{record.startNo,jdbcType=VARCHAR},
+      End_No = #{record.endNo,jdbcType=VARCHAR},
+      Counts = #{record.counts,jdbcType=INTEGER},
+      In_Date = #{record.inDate,jdbcType=TIMESTAMP},
+      In_Emp_ID = #{record.inEmpId,jdbcType=INTEGER}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.watersupply.entity.IvInInvoice" >
+    update iv_in_invoice
+    <set >
+      <if test="invoiceType != null" >
+        Invoice_Type = #{invoiceType,jdbcType=INTEGER},
+      </if>
+      <if test="startNo != null" >
+        Start_No = #{startNo,jdbcType=VARCHAR},
+      </if>
+      <if test="endNo != null" >
+        End_No = #{endNo,jdbcType=VARCHAR},
+      </if>
+      <if test="counts != null" >
+        Counts = #{counts,jdbcType=INTEGER},
+      </if>
+      <if test="inDate != null" >
+        In_Date = #{inDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="inEmpId != null" >
+        In_Emp_ID = #{inEmpId,jdbcType=INTEGER},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.watersupply.entity.IvInInvoice" >
+    update iv_in_invoice
+    set Invoice_Type = #{invoiceType,jdbcType=INTEGER},
+      Start_No = #{startNo,jdbcType=VARCHAR},
+      End_No = #{endNo,jdbcType=VARCHAR},
+      Counts = #{counts,jdbcType=INTEGER},
+      In_Date = #{inDate,jdbcType=TIMESTAMP},
+      In_Emp_ID = #{inEmpId,jdbcType=INTEGER}
+    where ID = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

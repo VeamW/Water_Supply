@@ -1,0 +1,247 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.watersupply.dao.RdYearMonthMapper" >
+  <resultMap id="BaseResultMap" type="com.watersupply.entity.RdYearMonth" >
+    <id column="ID" property="id" jdbcType="INTEGER" />
+    <result column="Read_Year" property="readYear" jdbcType="INTEGER" />
+    <result column="Read_Month" property="readMonth" jdbcType="INTEGER" />
+    <result column="Is_Current" property="isCurrent" jdbcType="BIT" />
+    <result column="Init_Emp_ID" property="initEmpId" jdbcType="INTEGER" />
+    <result column="Init_Date" property="initDate" jdbcType="TIMESTAMP" />
+    <result column="End_Date" property="endDate" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    ID, Read_Year, Read_Month, Is_Current, Init_Emp_ID, Init_Date, End_Date
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.watersupply.entity.RdYearMonthExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from rd_year_month
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+    <if test="limitStart != null and limitStart>=0" >
+      limit #{limitStart} , #{limitEnd}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from rd_year_month
+    where ID = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from rd_year_month
+    where ID = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.watersupply.entity.RdYearMonthExample" >
+    delete from rd_year_month
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.watersupply.entity.RdYearMonth" >
+    <selectKey resultType="java.lang.Integer" keyProperty="id" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into rd_year_month (Read_Year, Read_Month, Is_Current, 
+      Init_Emp_ID, Init_Date, End_Date
+      )
+    values (#{readYear,jdbcType=INTEGER}, #{readMonth,jdbcType=INTEGER}, #{isCurrent,jdbcType=BIT}, 
+      #{initEmpId,jdbcType=INTEGER}, #{initDate,jdbcType=TIMESTAMP}, #{endDate,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.watersupply.entity.RdYearMonth" >
+    <selectKey resultType="java.lang.Integer" keyProperty="id" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into rd_year_month
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="readYear != null" >
+        Read_Year,
+      </if>
+      <if test="readMonth != null" >
+        Read_Month,
+      </if>
+      <if test="isCurrent != null" >
+        Is_Current,
+      </if>
+      <if test="initEmpId != null" >
+        Init_Emp_ID,
+      </if>
+      <if test="initDate != null" >
+        Init_Date,
+      </if>
+      <if test="endDate != null" >
+        End_Date,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="readYear != null" >
+        #{readYear,jdbcType=INTEGER},
+      </if>
+      <if test="readMonth != null" >
+        #{readMonth,jdbcType=INTEGER},
+      </if>
+      <if test="isCurrent != null" >
+        #{isCurrent,jdbcType=BIT},
+      </if>
+      <if test="initEmpId != null" >
+        #{initEmpId,jdbcType=INTEGER},
+      </if>
+      <if test="initDate != null" >
+        #{initDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="endDate != null" >
+        #{endDate,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.watersupply.entity.RdYearMonthExample" resultType="java.lang.Integer" >
+    select count(*) from rd_year_month
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update rd_year_month
+    <set >
+      <if test="record.id != null" >
+        ID = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.readYear != null" >
+        Read_Year = #{record.readYear,jdbcType=INTEGER},
+      </if>
+      <if test="record.readMonth != null" >
+        Read_Month = #{record.readMonth,jdbcType=INTEGER},
+      </if>
+      <if test="record.isCurrent != null" >
+        Is_Current = #{record.isCurrent,jdbcType=BIT},
+      </if>
+      <if test="record.initEmpId != null" >
+        Init_Emp_ID = #{record.initEmpId,jdbcType=INTEGER},
+      </if>
+      <if test="record.initDate != null" >
+        Init_Date = #{record.initDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.endDate != null" >
+        End_Date = #{record.endDate,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update rd_year_month
+    set ID = #{record.id,jdbcType=INTEGER},
+      Read_Year = #{record.readYear,jdbcType=INTEGER},
+      Read_Month = #{record.readMonth,jdbcType=INTEGER},
+      Is_Current = #{record.isCurrent,jdbcType=BIT},
+      Init_Emp_ID = #{record.initEmpId,jdbcType=INTEGER},
+      Init_Date = #{record.initDate,jdbcType=TIMESTAMP},
+      End_Date = #{record.endDate,jdbcType=TIMESTAMP}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.watersupply.entity.RdYearMonth" >
+    update rd_year_month
+    <set >
+      <if test="readYear != null" >
+        Read_Year = #{readYear,jdbcType=INTEGER},
+      </if>
+      <if test="readMonth != null" >
+        Read_Month = #{readMonth,jdbcType=INTEGER},
+      </if>
+      <if test="isCurrent != null" >
+        Is_Current = #{isCurrent,jdbcType=BIT},
+      </if>
+      <if test="initEmpId != null" >
+        Init_Emp_ID = #{initEmpId,jdbcType=INTEGER},
+      </if>
+      <if test="initDate != null" >
+        Init_Date = #{initDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="endDate != null" >
+        End_Date = #{endDate,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.watersupply.entity.RdYearMonth" >
+    update rd_year_month
+    set Read_Year = #{readYear,jdbcType=INTEGER},
+      Read_Month = #{readMonth,jdbcType=INTEGER},
+      Is_Current = #{isCurrent,jdbcType=BIT},
+      Init_Emp_ID = #{initEmpId,jdbcType=INTEGER},
+      Init_Date = #{initDate,jdbcType=TIMESTAMP},
+      End_Date = #{endDate,jdbcType=TIMESTAMP}
+    where ID = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

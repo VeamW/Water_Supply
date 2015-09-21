@@ -1,0 +1,325 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.watersupply.dao.IvInvoiceMapper" >
+  <resultMap id="BaseResultMap" type="com.watersupply.entity.IvInvoice" >
+    <id column="Invoice_No" property="invoiceNo" jdbcType="VARCHAR" />
+    <result column="Invoice_Type" property="invoiceType" jdbcType="INTEGER" />
+    <result column="Emp_ID" property="empId" jdbcType="INTEGER" />
+    <result column="In_ID" property="inId" jdbcType="INTEGER" />
+    <result column="Out_ID" property="outId" jdbcType="INTEGER" />
+    <result column="Archive_ID" property="archiveId" jdbcType="INTEGER" />
+    <result column="Used" property="used" jdbcType="BIT" />
+    <result column="Use_Date" property="useDate" jdbcType="TIMESTAMP" />
+    <result column="Invalid" property="invalid" jdbcType="BIT" />
+    <result column="Invalid_Date" property="invalidDate" jdbcType="TIMESTAMP" />
+    <result column="Archived" property="archived" jdbcType="BIT" />
+    <result column="Archive_Date" property="archiveDate" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    Invoice_No, Invoice_Type, Emp_ID, In_ID, Out_ID, Archive_ID, Used, Use_Date, Invalid, 
+    Invalid_Date, Archived, Archive_Date
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.watersupply.entity.IvInvoiceExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from iv_invoice
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+    <if test="limitStart != null and limitStart>=0" >
+      limit #{limitStart} , #{limitEnd}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from iv_invoice
+    where Invoice_No = #{invoiceNo,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from iv_invoice
+    where Invoice_No = #{invoiceNo,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.watersupply.entity.IvInvoiceExample" >
+    delete from iv_invoice
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.watersupply.entity.IvInvoice" >
+    insert into iv_invoice (Invoice_No, Invoice_Type, Emp_ID, 
+      In_ID, Out_ID, Archive_ID, 
+      Used, Use_Date, Invalid, Invalid_Date, 
+      Archived, Archive_Date)
+    values (#{invoiceNo,jdbcType=VARCHAR}, #{invoiceType,jdbcType=INTEGER}, #{empId,jdbcType=INTEGER}, 
+      #{inId,jdbcType=INTEGER}, #{outId,jdbcType=INTEGER}, #{archiveId,jdbcType=INTEGER}, 
+      #{used,jdbcType=BIT}, #{useDate,jdbcType=TIMESTAMP}, #{invalid,jdbcType=BIT}, #{invalidDate,jdbcType=TIMESTAMP}, 
+      #{archived,jdbcType=BIT}, #{archiveDate,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.watersupply.entity.IvInvoice" >
+    insert into iv_invoice
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="invoiceNo != null" >
+        Invoice_No,
+      </if>
+      <if test="invoiceType != null" >
+        Invoice_Type,
+      </if>
+      <if test="empId != null" >
+        Emp_ID,
+      </if>
+      <if test="inId != null" >
+        In_ID,
+      </if>
+      <if test="outId != null" >
+        Out_ID,
+      </if>
+      <if test="archiveId != null" >
+        Archive_ID,
+      </if>
+      <if test="used != null" >
+        Used,
+      </if>
+      <if test="useDate != null" >
+        Use_Date,
+      </if>
+      <if test="invalid != null" >
+        Invalid,
+      </if>
+      <if test="invalidDate != null" >
+        Invalid_Date,
+      </if>
+      <if test="archived != null" >
+        Archived,
+      </if>
+      <if test="archiveDate != null" >
+        Archive_Date,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="invoiceNo != null" >
+        #{invoiceNo,jdbcType=VARCHAR},
+      </if>
+      <if test="invoiceType != null" >
+        #{invoiceType,jdbcType=INTEGER},
+      </if>
+      <if test="empId != null" >
+        #{empId,jdbcType=INTEGER},
+      </if>
+      <if test="inId != null" >
+        #{inId,jdbcType=INTEGER},
+      </if>
+      <if test="outId != null" >
+        #{outId,jdbcType=INTEGER},
+      </if>
+      <if test="archiveId != null" >
+        #{archiveId,jdbcType=INTEGER},
+      </if>
+      <if test="used != null" >
+        #{used,jdbcType=BIT},
+      </if>
+      <if test="useDate != null" >
+        #{useDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="invalid != null" >
+        #{invalid,jdbcType=BIT},
+      </if>
+      <if test="invalidDate != null" >
+        #{invalidDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="archived != null" >
+        #{archived,jdbcType=BIT},
+      </if>
+      <if test="archiveDate != null" >
+        #{archiveDate,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.watersupply.entity.IvInvoiceExample" resultType="java.lang.Integer" >
+    select count(*) from iv_invoice
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update iv_invoice
+    <set >
+      <if test="record.invoiceNo != null" >
+        Invoice_No = #{record.invoiceNo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.invoiceType != null" >
+        Invoice_Type = #{record.invoiceType,jdbcType=INTEGER},
+      </if>
+      <if test="record.empId != null" >
+        Emp_ID = #{record.empId,jdbcType=INTEGER},
+      </if>
+      <if test="record.inId != null" >
+        In_ID = #{record.inId,jdbcType=INTEGER},
+      </if>
+      <if test="record.outId != null" >
+        Out_ID = #{record.outId,jdbcType=INTEGER},
+      </if>
+      <if test="record.archiveId != null" >
+        Archive_ID = #{record.archiveId,jdbcType=INTEGER},
+      </if>
+      <if test="record.used != null" >
+        Used = #{record.used,jdbcType=BIT},
+      </if>
+      <if test="record.useDate != null" >
+        Use_Date = #{record.useDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.invalid != null" >
+        Invalid = #{record.invalid,jdbcType=BIT},
+      </if>
+      <if test="record.invalidDate != null" >
+        Invalid_Date = #{record.invalidDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.archived != null" >
+        Archived = #{record.archived,jdbcType=BIT},
+      </if>
+      <if test="record.archiveDate != null" >
+        Archive_Date = #{record.archiveDate,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update iv_invoice
+    set Invoice_No = #{record.invoiceNo,jdbcType=VARCHAR},
+      Invoice_Type = #{record.invoiceType,jdbcType=INTEGER},
+      Emp_ID = #{record.empId,jdbcType=INTEGER},
+      In_ID = #{record.inId,jdbcType=INTEGER},
+      Out_ID = #{record.outId,jdbcType=INTEGER},
+      Archive_ID = #{record.archiveId,jdbcType=INTEGER},
+      Used = #{record.used,jdbcType=BIT},
+      Use_Date = #{record.useDate,jdbcType=TIMESTAMP},
+      Invalid = #{record.invalid,jdbcType=BIT},
+      Invalid_Date = #{record.invalidDate,jdbcType=TIMESTAMP},
+      Archived = #{record.archived,jdbcType=BIT},
+      Archive_Date = #{record.archiveDate,jdbcType=TIMESTAMP}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.watersupply.entity.IvInvoice" >
+    update iv_invoice
+    <set >
+      <if test="invoiceType != null" >
+        Invoice_Type = #{invoiceType,jdbcType=INTEGER},
+      </if>
+      <if test="empId != null" >
+        Emp_ID = #{empId,jdbcType=INTEGER},
+      </if>
+      <if test="inId != null" >
+        In_ID = #{inId,jdbcType=INTEGER},
+      </if>
+      <if test="outId != null" >
+        Out_ID = #{outId,jdbcType=INTEGER},
+      </if>
+      <if test="archiveId != null" >
+        Archive_ID = #{archiveId,jdbcType=INTEGER},
+      </if>
+      <if test="used != null" >
+        Used = #{used,jdbcType=BIT},
+      </if>
+      <if test="useDate != null" >
+        Use_Date = #{useDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="invalid != null" >
+        Invalid = #{invalid,jdbcType=BIT},
+      </if>
+      <if test="invalidDate != null" >
+        Invalid_Date = #{invalidDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="archived != null" >
+        Archived = #{archived,jdbcType=BIT},
+      </if>
+      <if test="archiveDate != null" >
+        Archive_Date = #{archiveDate,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where Invoice_No = #{invoiceNo,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.watersupply.entity.IvInvoice" >
+    update iv_invoice
+    set Invoice_Type = #{invoiceType,jdbcType=INTEGER},
+      Emp_ID = #{empId,jdbcType=INTEGER},
+      In_ID = #{inId,jdbcType=INTEGER},
+      Out_ID = #{outId,jdbcType=INTEGER},
+      Archive_ID = #{archiveId,jdbcType=INTEGER},
+      Used = #{used,jdbcType=BIT},
+      Use_Date = #{useDate,jdbcType=TIMESTAMP},
+      Invalid = #{invalid,jdbcType=BIT},
+      Invalid_Date = #{invalidDate,jdbcType=TIMESTAMP},
+      Archived = #{archived,jdbcType=BIT},
+      Archive_Date = #{archiveDate,jdbcType=TIMESTAMP}
+    where Invoice_No = #{invoiceNo,jdbcType=VARCHAR}
+  </update>
+</mapper>

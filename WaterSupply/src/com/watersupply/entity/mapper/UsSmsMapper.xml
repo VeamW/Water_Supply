@@ -1,0 +1,215 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.watersupply.dao.UsSmsMapper" >
+  <resultMap id="BaseResultMap" type="com.watersupply.entity.UsSms" >
+    <id column="ID" property="id" jdbcType="INTEGER" />
+    <result column="Send_Time" property="sendTime" jdbcType="TIMESTAMP" />
+    <result column="Emp_ID" property="empId" jdbcType="INTEGER" />
+    <result column="Message" property="message" jdbcType="VARCHAR" />
+    <result column="Typee" property="typee" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    ID, Send_Time, Emp_ID, Message, Typee
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.watersupply.entity.UsSmsExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from us_sms
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+    <if test="limitStart != null and limitStart>=0" >
+      limit #{limitStart} , #{limitEnd}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from us_sms
+    where ID = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from us_sms
+    where ID = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.watersupply.entity.UsSmsExample" >
+    delete from us_sms
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.watersupply.entity.UsSms" >
+    <selectKey resultType="java.lang.Integer" keyProperty="id" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into us_sms (Send_Time, Emp_ID, Message, 
+      Typee)
+    values (#{sendTime,jdbcType=TIMESTAMP}, #{empId,jdbcType=INTEGER}, #{message,jdbcType=VARCHAR}, 
+      #{typee,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.watersupply.entity.UsSms" >
+    <selectKey resultType="java.lang.Integer" keyProperty="id" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into us_sms
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="sendTime != null" >
+        Send_Time,
+      </if>
+      <if test="empId != null" >
+        Emp_ID,
+      </if>
+      <if test="message != null" >
+        Message,
+      </if>
+      <if test="typee != null" >
+        Typee,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="sendTime != null" >
+        #{sendTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="empId != null" >
+        #{empId,jdbcType=INTEGER},
+      </if>
+      <if test="message != null" >
+        #{message,jdbcType=VARCHAR},
+      </if>
+      <if test="typee != null" >
+        #{typee,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.watersupply.entity.UsSmsExample" resultType="java.lang.Integer" >
+    select count(*) from us_sms
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update us_sms
+    <set >
+      <if test="record.id != null" >
+        ID = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.sendTime != null" >
+        Send_Time = #{record.sendTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.empId != null" >
+        Emp_ID = #{record.empId,jdbcType=INTEGER},
+      </if>
+      <if test="record.message != null" >
+        Message = #{record.message,jdbcType=VARCHAR},
+      </if>
+      <if test="record.typee != null" >
+        Typee = #{record.typee,jdbcType=INTEGER},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update us_sms
+    set ID = #{record.id,jdbcType=INTEGER},
+      Send_Time = #{record.sendTime,jdbcType=TIMESTAMP},
+      Emp_ID = #{record.empId,jdbcType=INTEGER},
+      Message = #{record.message,jdbcType=VARCHAR},
+      Typee = #{record.typee,jdbcType=INTEGER}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.watersupply.entity.UsSms" >
+    update us_sms
+    <set >
+      <if test="sendTime != null" >
+        Send_Time = #{sendTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="empId != null" >
+        Emp_ID = #{empId,jdbcType=INTEGER},
+      </if>
+      <if test="message != null" >
+        Message = #{message,jdbcType=VARCHAR},
+      </if>
+      <if test="typee != null" >
+        Typee = #{typee,jdbcType=INTEGER},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.watersupply.entity.UsSms" >
+    update us_sms
+    set Send_Time = #{sendTime,jdbcType=TIMESTAMP},
+      Emp_ID = #{empId,jdbcType=INTEGER},
+      Message = #{message,jdbcType=VARCHAR},
+      Typee = #{typee,jdbcType=INTEGER}
+    where ID = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

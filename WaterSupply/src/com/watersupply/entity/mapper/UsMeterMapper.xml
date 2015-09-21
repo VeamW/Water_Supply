@@ -1,0 +1,287 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.watersupply.dao.UsMeterMapper" >
+  <resultMap id="BaseResultMap" type="com.watersupply.entity.UsMeter" >
+    <id column="Meter_No" property="meterNo" jdbcType="VARCHAR" />
+    <result column="User_No" property="userNo" jdbcType="VARCHAR" />
+    <result column="Meter_Name" property="meterName" jdbcType="VARCHAR" />
+    <result column="Meter_Type_ID" property="meterTypeId" jdbcType="INTEGER" />
+    <result column="Max_Value" property="maxValue" jdbcType="INTEGER" />
+    <result column="Start_Value" property="startValue" jdbcType="INTEGER" />
+    <result column="Setup_Date" property="setupDate" jdbcType="TIMESTAMP" />
+    <result column="Factory" property="factory" jdbcType="VARCHAR" />
+    <result column="Disabled" property="disabled" jdbcType="BIT" />
+  </resultMap>
+   <select  id="byIdg" resultMap="BaseResultMap" parameterType="String">
+  select * from Us_Meter where Meter_No = #{meterNo}
+  </select>
+  <update id="updateidg"  parameterType="String">
+  	update Us_Meter set Disabled = 1 where Meter_No = #{Meter_No}
+  </update>
+  <!--=============================gt====================================-->
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    Meter_No, User_No, Meter_Name, Meter_Type_ID, Max_Value, Start_Value, Setup_Date, 
+    Factory, Disabled
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.watersupply.entity.UsMeterExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from us_meter
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+    <if test="limitStart != null and limitStart>=0" >
+      limit #{limitStart} , #{limitEnd}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from us_meter
+    where Meter_No = #{meterNo,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from us_meter
+    where Meter_No = #{meterNo,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.watersupply.entity.UsMeterExample" >
+    delete from us_meter
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.watersupply.entity.UsMeter" >
+    insert into us_meter (Meter_No, User_No, Meter_Name, 
+      Meter_Type_ID, Max_Value, Start_Value, 
+      Setup_Date, Factory, Disabled
+      )
+    values (#{meterNo,jdbcType=VARCHAR}, #{userNo,jdbcType=VARCHAR}, #{meterName,jdbcType=VARCHAR}, 
+      #{meterTypeId,jdbcType=INTEGER}, #{maxValue,jdbcType=INTEGER}, #{startValue,jdbcType=INTEGER}, 
+      #{setupDate,jdbcType=TIMESTAMP}, #{factory,jdbcType=VARCHAR}, #{disabled,jdbcType=BIT}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.watersupply.entity.UsMeter" >
+    insert into us_meter
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="meterNo != null" >
+        Meter_No,
+      </if>
+      <if test="userNo != null" >
+        User_No,
+      </if>
+      <if test="meterName != null" >
+        Meter_Name,
+      </if>
+      <if test="meterTypeId != null" >
+        Meter_Type_ID,
+      </if>
+      <if test="maxValue != null" >
+        Max_Value,
+      </if>
+      <if test="startValue != null" >
+        Start_Value,
+      </if>
+      <if test="setupDate != null" >
+        Setup_Date,
+      </if>
+      <if test="factory != null" >
+        Factory,
+      </if>
+      <if test="disabled != null" >
+        Disabled,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="meterNo != null" >
+        #{meterNo,jdbcType=VARCHAR},
+      </if>
+      <if test="userNo != null" >
+        #{userNo,jdbcType=VARCHAR},
+      </if>
+      <if test="meterName != null" >
+        #{meterName,jdbcType=VARCHAR},
+      </if>
+      <if test="meterTypeId != null" >
+        #{meterTypeId,jdbcType=INTEGER},
+      </if>
+      <if test="maxValue != null" >
+        #{maxValue,jdbcType=INTEGER},
+      </if>
+      <if test="startValue != null" >
+        #{startValue,jdbcType=INTEGER},
+      </if>
+      <if test="setupDate != null" >
+        #{setupDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="factory != null" >
+        #{factory,jdbcType=VARCHAR},
+      </if>
+      <if test="disabled != null" >
+        #{disabled,jdbcType=BIT},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.watersupply.entity.UsMeterExample" resultType="java.lang.Integer" >
+    select count(*) from us_meter
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update us_meter
+    <set >
+      <if test="record.meterNo != null" >
+        Meter_No = #{record.meterNo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.userNo != null" >
+        User_No = #{record.userNo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.meterName != null" >
+        Meter_Name = #{record.meterName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.meterTypeId != null" >
+        Meter_Type_ID = #{record.meterTypeId,jdbcType=INTEGER},
+      </if>
+      <if test="record.maxValue != null" >
+        Max_Value = #{record.maxValue,jdbcType=INTEGER},
+      </if>
+      <if test="record.startValue != null" >
+        Start_Value = #{record.startValue,jdbcType=INTEGER},
+      </if>
+      <if test="record.setupDate != null" >
+        Setup_Date = #{record.setupDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.factory != null" >
+        Factory = #{record.factory,jdbcType=VARCHAR},
+      </if>
+      <if test="record.disabled != null" >
+        Disabled = #{record.disabled,jdbcType=BIT},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update us_meter
+    set Meter_No = #{record.meterNo,jdbcType=VARCHAR},
+      User_No = #{record.userNo,jdbcType=VARCHAR},
+      Meter_Name = #{record.meterName,jdbcType=VARCHAR},
+      Meter_Type_ID = #{record.meterTypeId,jdbcType=INTEGER},
+      Max_Value = #{record.maxValue,jdbcType=INTEGER},
+      Start_Value = #{record.startValue,jdbcType=INTEGER},
+      Setup_Date = #{record.setupDate,jdbcType=TIMESTAMP},
+      Factory = #{record.factory,jdbcType=VARCHAR},
+      Disabled = #{record.disabled,jdbcType=BIT}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.watersupply.entity.UsMeter" >
+    update us_meter
+    <set >
+      <if test="userNo != null" >
+        User_No = #{userNo,jdbcType=VARCHAR},
+      </if>
+      <if test="meterName != null" >
+        Meter_Name = #{meterName,jdbcType=VARCHAR},
+      </if>
+      <if test="meterTypeId != null" >
+        Meter_Type_ID = #{meterTypeId,jdbcType=INTEGER},
+      </if>
+      <if test="maxValue != null" >
+        Max_Value = #{maxValue,jdbcType=INTEGER},
+      </if>
+      <if test="startValue != null" >
+        Start_Value = #{startValue,jdbcType=INTEGER},
+      </if>
+      <if test="setupDate != null" >
+        Setup_Date = #{setupDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="factory != null" >
+        Factory = #{factory,jdbcType=VARCHAR},
+      </if>
+      <if test="disabled != null" >
+        Disabled = #{disabled,jdbcType=BIT},
+      </if>
+    </set>
+    where Meter_No = #{meterNo,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.watersupply.entity.UsMeter" >
+    update us_meter
+    set User_No = #{userNo,jdbcType=VARCHAR},
+      Meter_Name = #{meterName,jdbcType=VARCHAR},
+      Meter_Type_ID = #{meterTypeId,jdbcType=INTEGER},
+      Max_Value = #{maxValue,jdbcType=INTEGER},
+      Start_Value = #{startValue,jdbcType=INTEGER},
+      Setup_Date = #{setupDate,jdbcType=TIMESTAMP},
+      Factory = #{factory,jdbcType=VARCHAR},
+      Disabled = #{disabled,jdbcType=BIT}
+    where Meter_No = #{meterNo,jdbcType=VARCHAR}
+  </update>
+</mapper>

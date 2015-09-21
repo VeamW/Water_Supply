@@ -1,0 +1,30 @@
+package com.watersupply.dao;
+
+import com.watersupply.entity.BeComment;
+import com.watersupply.entity.BeCommentExample;
+import java.util.List;
+import org.apache.ibatis.annotations.Param;
+
+public interface BeCommentMapper {
+    int countByExample(BeCommentExample example);
+
+    int deleteByExample(BeCommentExample example);
+
+    int deleteByPrimaryKey(Integer id);
+
+    int insert(BeComment record);
+
+    int insertSelective(BeComment record);
+
+    List<BeComment> selectByExample(BeCommentExample example);
+
+    BeComment selectByPrimaryKey(Integer id);
+
+    int updateByExampleSelective(@Param("record") BeComment record, @Param("example") BeCommentExample example);
+
+    int updateByExample(@Param("record") BeComment record, @Param("example") BeCommentExample example);
+
+    int updateByPrimaryKeySelective(BeComment record);
+
+    int updateByPrimaryKey(BeComment record);
+}

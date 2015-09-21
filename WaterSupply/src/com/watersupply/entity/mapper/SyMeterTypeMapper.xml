@@ -1,0 +1,274 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.watersupply.dao.SyMeterTypeMapper" >
+  <resultMap id="BaseResultMap" type="com.watersupply.entity.SyMeterType" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="Meter_Type_Name" property="meterTypeName" jdbcType="VARCHAR" />
+    <result column="Aperture" property="aperture" jdbcType="INTEGER" />
+    <result column="Max_Value" property="maxValue" jdbcType="INTEGER" />
+    <result column="Min_Value" property="minValue" jdbcType="INTEGER" />
+    <result column="Life" property="life" jdbcType="INTEGER" />
+    <result column="Remark" property="remark" jdbcType="VARCHAR" />
+    <result column="Disabled" property="disabled" jdbcType="BIT" />
+  </resultMap>
+   <select id="selectAllg" resultMap="BaseResultMap">
+  select * from Sy_Meter_Type
+  </select>
+  <select id="byidg" resultMap="BaseResultMap" parameterType="int">
+  select * from Sy_Meter_Type where id=#{id}
+  </select>
+  <!--=========================gt========================  -->
+  <!-- 查询可使用水表类型 -->
+  <select id="getAllMeterTypeByDisabled" resultMap="BaseResultMap">
+  	SELECT * FROM sy_meter_type WHERE disabled=0
+  </select>
+  
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    id, Meter_Type_Name, Aperture, Max_Value, Min_Value, Life, Remark, Disabled
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.watersupply.entity.SyMeterTypeExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from sy_meter_type
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+    <if test="limitStart != null and limitStart>=0" >
+      limit #{limitStart} , #{limitEnd}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from sy_meter_type
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from sy_meter_type
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.watersupply.entity.SyMeterTypeExample" >
+    delete from sy_meter_type
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.watersupply.entity.SyMeterType" >
+    <selectKey resultType="java.lang.Integer" keyProperty="id" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into sy_meter_type (Meter_Type_Name, Aperture, Max_Value, 
+      Min_Value, Life, Remark, 
+      Disabled)
+    values (#{meterTypeName,jdbcType=VARCHAR}, #{aperture,jdbcType=INTEGER}, #{maxValue,jdbcType=INTEGER}, 
+      #{minValue,jdbcType=INTEGER}, #{life,jdbcType=INTEGER}, #{remark,jdbcType=VARCHAR}, 
+      #{disabled,jdbcType=BIT})
+  </insert>
+  <insert id="insertSelective" parameterType="com.watersupply.entity.SyMeterType" >
+    <selectKey resultType="java.lang.Integer" keyProperty="id" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into sy_meter_type
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="meterTypeName != null" >
+        Meter_Type_Name,
+      </if>
+      <if test="aperture != null" >
+        Aperture,
+      </if>
+      <if test="maxValue != null" >
+        Max_Value,
+      </if>
+      <if test="minValue != null" >
+        Min_Value,
+      </if>
+      <if test="life != null" >
+        Life,
+      </if>
+      <if test="remark != null" >
+        Remark,
+      </if>
+      <if test="disabled != null" >
+        Disabled,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="meterTypeName != null" >
+        #{meterTypeName,jdbcType=VARCHAR},
+      </if>
+      <if test="aperture != null" >
+        #{aperture,jdbcType=INTEGER},
+      </if>
+      <if test="maxValue != null" >
+        #{maxValue,jdbcType=INTEGER},
+      </if>
+      <if test="minValue != null" >
+        #{minValue,jdbcType=INTEGER},
+      </if>
+      <if test="life != null" >
+        #{life,jdbcType=INTEGER},
+      </if>
+      <if test="remark != null" >
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="disabled != null" >
+        #{disabled,jdbcType=BIT},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.watersupply.entity.SyMeterTypeExample" resultType="java.lang.Integer" >
+    select count(*) from sy_meter_type
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update sy_meter_type
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.meterTypeName != null" >
+        Meter_Type_Name = #{record.meterTypeName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.aperture != null" >
+        Aperture = #{record.aperture,jdbcType=INTEGER},
+      </if>
+      <if test="record.maxValue != null" >
+        Max_Value = #{record.maxValue,jdbcType=INTEGER},
+      </if>
+      <if test="record.minValue != null" >
+        Min_Value = #{record.minValue,jdbcType=INTEGER},
+      </if>
+      <if test="record.life != null" >
+        Life = #{record.life,jdbcType=INTEGER},
+      </if>
+      <if test="record.remark != null" >
+        Remark = #{record.remark,jdbcType=VARCHAR},
+      </if>
+      <if test="record.disabled != null" >
+        Disabled = #{record.disabled,jdbcType=BIT},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update sy_meter_type
+    set id = #{record.id,jdbcType=INTEGER},
+      Meter_Type_Name = #{record.meterTypeName,jdbcType=VARCHAR},
+      Aperture = #{record.aperture,jdbcType=INTEGER},
+      Max_Value = #{record.maxValue,jdbcType=INTEGER},
+      Min_Value = #{record.minValue,jdbcType=INTEGER},
+      Life = #{record.life,jdbcType=INTEGER},
+      Remark = #{record.remark,jdbcType=VARCHAR},
+      Disabled = #{record.disabled,jdbcType=BIT}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.watersupply.entity.SyMeterType" >
+    update sy_meter_type
+    <set >
+      <if test="meterTypeName != null" >
+        Meter_Type_Name = #{meterTypeName,jdbcType=VARCHAR},
+      </if>
+      <if test="aperture != null" >
+        Aperture = #{aperture,jdbcType=INTEGER},
+      </if>
+      <if test="maxValue != null" >
+        Max_Value = #{maxValue,jdbcType=INTEGER},
+      </if>
+      <if test="minValue != null" >
+        Min_Value = #{minValue,jdbcType=INTEGER},
+      </if>
+      <if test="life != null" >
+        Life = #{life,jdbcType=INTEGER},
+      </if>
+      <if test="remark != null" >
+        Remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="disabled != null" >
+        Disabled = #{disabled,jdbcType=BIT},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.watersupply.entity.SyMeterType" >
+    update sy_meter_type
+    set Meter_Type_Name = #{meterTypeName,jdbcType=VARCHAR},
+      Aperture = #{aperture,jdbcType=INTEGER},
+      Max_Value = #{maxValue,jdbcType=INTEGER},
+      Min_Value = #{minValue,jdbcType=INTEGER},
+      Life = #{life,jdbcType=INTEGER},
+      Remark = #{remark,jdbcType=VARCHAR},
+      Disabled = #{disabled,jdbcType=BIT}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

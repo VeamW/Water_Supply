@@ -1,0 +1,38 @@
+package com.watersupply.dao;
+
+import com.watersupply.entity.SyArea;
+import com.watersupply.entity.SyAreaExample;
+import java.util.List;
+import org.apache.ibatis.annotations.Param;
+
+public interface SyAreaMapper {
+	
+	/**
+	 * 查询可使用辖区
+	 * @return
+	 */
+	List<SyArea> getAllAreaByDisabled();
+	
+	
+    int countByExample(SyAreaExample example);
+
+    int deleteByExample(SyAreaExample example);
+
+    int deleteByPrimaryKey(Integer id);
+
+    int insert(SyArea record);
+
+    int insertSelective(SyArea record);
+
+    List<SyArea> selectByExample(SyAreaExample example);
+
+    SyArea selectByPrimaryKey(Integer id);
+
+    int updateByExampleSelective(@Param("record") SyArea record, @Param("example") SyAreaExample example);
+
+    int updateByExample(@Param("record") SyArea record, @Param("example") SyAreaExample example);
+
+    int updateByPrimaryKeySelective(SyArea record);
+
+    int updateByPrimaryKey(SyArea record);
+}
